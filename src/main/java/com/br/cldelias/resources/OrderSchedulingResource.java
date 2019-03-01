@@ -37,6 +37,12 @@ public class OrderSchedulingResource {
 		return ResponseEntity.created(uri).build();
 	}
 	
+	@RequestMapping(value="/{id}", method=RequestMethod.GET)
+	public ResponseEntity<OrderSchedulingDTO> findById(@PathVariable Integer id) {
+		OrderSchedulingDTO Dto = this.service.findById(id);
+		return ResponseEntity.ok(Dto);
+	}
+	
 	@RequestMapping(value="/type/{typeOperation}", method=RequestMethod.GET)
 	public ResponseEntity<List<OrderSchedulingDTO>> findByTypeOperation(@PathVariable Integer typeOperation) {
 		List<OrderSchedulingDTO> listDto = this.service.findByTypeOperationDTO(typeOperation);

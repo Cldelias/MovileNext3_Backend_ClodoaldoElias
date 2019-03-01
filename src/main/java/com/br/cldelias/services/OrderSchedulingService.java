@@ -59,7 +59,6 @@ public class OrderSchedulingService {
 		return obj;
 	}
 
-
 	public void delete(Integer id) {
 		this.find(id);
 		try {
@@ -83,6 +82,23 @@ public class OrderSchedulingService {
 		return this.getOrderSchedulingDTO(list);
 	}
 
+	public OrderSchedulingDTO findById(Integer id) {
+		OrderScheduling entity = this.find(id);
+		return this.getOrderSchedulingDTO(entity);
+	}
+	
+	private OrderSchedulingDTO getOrderSchedulingDTO(OrderScheduling entity) {
+		OrderSchedulingDTO Dto = new OrderSchedulingDTO.Builder()
+						.withNameClient(entity.getClient().getName())
+						.withEmailClient(entity.getClient().getEmail())
+						.withDay(entity.getDay().toString())
+						.withNameRestaurant(entity.getRestaurant().getName())
+						.withHour(entity.getHour())
+						.withType(entity.getType().getDescription())
+						.addListItens(orderSchedulingItemService.getOrderSchedulingItemDTO(entity.getItens()))
+						.builder();
+		return Dto;
+	}
 	
 	private List<OrderSchedulingDTO> getOrderSchedulingDTO(List<OrderScheduling> list) {
 		List<OrderSchedulingDTO> listDto = list.stream()
