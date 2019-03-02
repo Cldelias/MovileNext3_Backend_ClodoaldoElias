@@ -1,19 +1,18 @@
 package com.br.cldelias.resources.exceptions;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 public class StandardError implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
 	private Integer status;
-	private LocalDateTime dateTime;
+	private String dateTime;
 	private String error;
 	private String message;
 	private String path;
 	
-	public StandardError(LocalDateTime dateTime, Integer status, String error, String message, String path) {
+	public StandardError(String dateTime, Integer status, String error, String message, String path) {
 		super();
 		this.dateTime = dateTime;
 		this.status = status;
@@ -22,11 +21,11 @@ public class StandardError implements Serializable {
 		this.path = path;
 	}
 
-	public LocalDateTime getDateTime() {
+	public String getDateTime() {
 		return dateTime;
 	}
 
-	public void setDateTime(LocalDateTime dateTime) {
+	public void setDateTime(String dateTime) {
 		this.dateTime = dateTime;
 	}
 

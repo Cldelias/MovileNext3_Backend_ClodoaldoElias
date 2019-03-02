@@ -11,6 +11,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.br.cldelias.enums.EnumDayWeek;
+import com.br.cldelias.enums.EnumPatternFormatDate;
 import com.br.cldelias.enums.EnumTypeOperation;
 import com.br.cldelias.model.Client;
 import com.br.cldelias.model.OrderScheduling;
@@ -19,9 +20,11 @@ import com.br.cldelias.model.Restaurant;
 import com.br.cldelias.repositories.OrderSchedulingRepository;
 import com.br.cldelias.services.exceptions.DataIntegrityException;
 import com.br.cldelias.services.exceptions.ObjectNotFoundException;
+import com.br.cldelias.services.exceptions.ValidationFieldException;
 
 import br.com.cldelias.dto.OrderSchedulingDTO;
 import br.com.cldelias.dto.OrderSchedulingNewDTO;
+import br.com.cldelias.utils.DateUtil;
 
 @Service
 public class OrderSchedulingService {
@@ -74,11 +77,13 @@ public class OrderSchedulingService {
 	
 	public List<OrderSchedulingDTO> findByTypeOperationDTO(Integer type) {
 		List<OrderScheduling> list = this.findByTypeOperation(type);
+		this.checkListOrderScheduling(list, "typeOperation:" + type);
 		return this.getOrderSchedulingDTO(list);
 	}
 	
 	public List<OrderSchedulingDTO> findByIdClient(Integer idClient) {
 		List<OrderScheduling> list = this.schedulingRepo.findByIdClient(idClient);
+		this.checkListOrderScheduling(list, "idClient:" + idClient);
 		return this.getOrderSchedulingDTO(list);
 	}
 
@@ -93,7 +98,7 @@ public class OrderSchedulingService {
 						.withEmailClient(entity.getClient().getEmail())
 						.withDay(entity.getDay().toString())
 						.withNameRestaurant(entity.getRestaurant().getName())
-						.withHour(entity.getHour())
+						.withHour(DateUtil.formatLocalTime(entity.getHour(), EnumPatternFormatDate.FORMAT_02))
 						.withType(entity.getType().getDescription())
 						.addListItens(orderSchedulingItemService.getOrderSchedulingItemDTO(entity.getItens()))
 						.builder();
@@ -107,7 +112,7 @@ public class OrderSchedulingService {
 						.withEmailClient(c.getClient().getEmail())
 						.withDay(c.getDay().toString())
 						.withNameRestaurant(c.getRestaurant().getName())
-						.withHour(c.getHour())
+						.withHour(DateUtil.formatLocalTime(c.getHour(), EnumPatternFormatDate.FORMAT_02))
 						.withType(c.getType().getDescription())
 						.addListItens(orderSchedulingItemService.getOrderSchedulingItemDTO(c.getItens()))
 						.builder()).collect(Collectors.toList());
@@ -122,7 +127,7 @@ public class OrderSchedulingService {
 				.withClient(client)
 				.withRestaurant(restaurant)
 				.atTheDay(EnumDayWeek.getDayWeek(objDto.getDay()))
-				.withHour(objDto.getHour())
+				.withHour(DateUtil.parseLocalTime(objDto.getHour(), EnumPatternFormatDate.FORMAT_02))
 				.withType(EnumTypeOperation.getTypeOperation(objDto.getType()))
 				.builder();
 		
@@ -137,8 +142,18 @@ public class OrderSchedulingService {
 			return orderSchedulingItem;
 		}).collect(Collectors.toList());
 		
+		if (itens == null || itens.isEmpty()) {
+			throw new ValidationFieldException("Itens of scheduling not found");
+		}
+
 		orderScheduling.setItens(itens);
 		return orderScheduling;
+	}
+	
+	private void checkListOrderScheduling(List<OrderScheduling> list, String message) {
+		if (list == null || list.isEmpty()) {
+			throw new ObjectNotFoundException("OrderScheduling not found! " + message + " Type: " + OrderScheduling.class.getName());			
+		}
 	}
 
 

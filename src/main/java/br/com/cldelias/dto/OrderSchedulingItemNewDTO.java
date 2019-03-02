@@ -1,6 +1,10 @@
 package br.com.cldelias.dto;
 
-public class OrderSchedulingItemNewDTO {
+import java.io.Serializable;
+
+public class OrderSchedulingItemNewDTO implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
 	
 	private Integer idProduct;
 	private Double quantify;
@@ -33,35 +37,5 @@ public class OrderSchedulingItemNewDTO {
 	public void setPrice(Double price) {
 		this.price = price;
 	}
-
-	public static class Builder  {
-		
-		private OrderSchedulingItemNewDTO objDto;
-		
-		public Builder() {
-			this.objDto = new OrderSchedulingItemNewDTO();
-		}
-		
-		public Builder withProduct(Integer idProduct) {
-			this.objDto.setIdProduct(idProduct);
-			return this;
-		}
-		
-		public Builder withQuantify(Double quantify) {
-			this.objDto.setQuantify(quantify);
-			return this;
-		}
-		
-		public Builder withPrice(Double price) {
-			this.objDto.setPrice(price);
-			return this;
-		}
-		
-		public OrderSchedulingItemNewDTO builder() {
-			return this.objDto;
-		}
-		
-	}
-
 
 }

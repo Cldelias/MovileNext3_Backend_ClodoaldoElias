@@ -107,6 +107,14 @@ public class OrderScheduling implements Serializable {
 		this.itens = itens;
 	}
 
+	public void addItem(OrderSchedulingItem item) {
+		if (item == null) {
+			throw new IllegalArgumentException("item invalid");
+		}
+		this.getItens().add(item);
+	}
+	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -165,23 +173,6 @@ public class OrderScheduling implements Serializable {
 			return this;
 		}
 	
-		public Builder addItem(OrderSchedulingItem item) {
-			if (item == null) {
-				throw new IllegalArgumentException("item invalid");
-			}
-			this.schedule.getItens().add(item);
-			return this;
-		}
-		
-		public Builder addListItem(List<OrderSchedulingItem> itens) {
-			if (itens == null || itens.isEmpty()) {
-				throw new IllegalArgumentException("List of itens invalid");
-			}
-			this.schedule.getItens().addAll(itens);
-			return this;
-		}
-
-		
 		public OrderScheduling builder() {
 			if (this.schedule.getClient() == null) {
 				throw new IllegalArgumentException("client invalid");
@@ -198,9 +189,6 @@ public class OrderScheduling implements Serializable {
 			if (this.schedule.getType() == null) {
 				throw new IllegalArgumentException("type of schedule invald");
 			}
-//			if (this.schedule.getItens() == null || this.schedule.getItens().isEmpty()) {
-//				throw new IllegalArgumentException("list of itens is empty");
-//			}
 			return schedule;
 		}
 	}

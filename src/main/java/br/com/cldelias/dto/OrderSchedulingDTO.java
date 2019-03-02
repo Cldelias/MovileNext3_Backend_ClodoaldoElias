@@ -1,15 +1,17 @@
 package br.com.cldelias.dto;
 
-import java.time.LocalTime;
+import java.io.Serializable;
 import java.util.List;
 
-public class OrderSchedulingDTO {
+public class OrderSchedulingDTO implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
 	
 	private String nameClient;
 	private String emailClient;
 	private String nameRestaurant;
 	private String day;
-	private LocalTime hour;
+	private String hour;
 	private String type;
 	private List<OrderSchedulingItemDTO> itensDTO;
 	
@@ -49,11 +51,11 @@ public class OrderSchedulingDTO {
 		this.day = day;
 	}
 
-	public LocalTime getHour() {
+	public String getHour() {
 		return hour;
 	}
 
-	public void setHour(LocalTime hour) {
+	public void setHour(String hour) {
 		this.hour = hour;
 	}
 
@@ -102,7 +104,7 @@ public class OrderSchedulingDTO {
 			return this;
 		}
 		
-		public Builder withHour(LocalTime hour) {
+		public Builder withHour(String hour) {
 			this.objDto.setHour(hour);
 			return this;
 		}

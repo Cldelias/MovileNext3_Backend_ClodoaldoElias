@@ -68,7 +68,7 @@ public class Restaurant implements Serializable {
 		Optional<Operation> op = this.operations
 		.stream()
 		.filter(p -> p.getDay().getDayWeek() == day.getDayWeek() 
-		&& p.getOpeningTime().isAfter(hour) && p.getClosingTime().isBefore(hour)).findFirst();
+		&& p.getOpeningTime().isBefore(hour) && p.getClosingTime().isAfter(hour)).findFirst();
 		return op.isPresent();
 	}
 

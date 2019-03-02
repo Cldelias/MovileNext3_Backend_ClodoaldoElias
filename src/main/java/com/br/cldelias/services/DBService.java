@@ -57,7 +57,7 @@ public class DBService {
 				.withPrice(new Double(32.50))
 				.withCategory(cat2).build();
 		
-		List<Operation> operations = Arrays.asList(EnumDayWeek.values()).stream().filter(d -> d.getDayWeek() > 2 && d.getDayWeek() < 7).map(d -> {
+		List<Operation> operations = Arrays.asList(EnumDayWeek.values()).stream().filter(d -> d.getDayWeek() >= 2 && d.getDayWeek() <= 7).map(d -> {
 			Operation op = new Operation.Builder()
 					.atTheDay(d)
 					.openThe(LocalTime.of(8, 0))

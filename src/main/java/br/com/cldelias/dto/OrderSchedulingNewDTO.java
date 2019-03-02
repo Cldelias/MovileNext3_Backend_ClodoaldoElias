@@ -1,14 +1,19 @@
 package br.com.cldelias.dto;
 
-import java.time.LocalTime;
+import java.io.Serializable;
 import java.util.List;
 
-public class OrderSchedulingNewDTO {
+import br.com.cldelias.services.validation.OrderSchedulingInsert;
+
+@OrderSchedulingInsert
+public class OrderSchedulingNewDTO implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
 	
 	private Integer idClient;
 	private Integer idRestaurant;
 	private Integer day;
-	private LocalTime hour;
+	private String hour;
 	private Integer type;
 	private List<OrderSchedulingItemNewDTO> itens;
 	
@@ -40,14 +45,14 @@ public class OrderSchedulingNewDTO {
 		this.day = day;
 	}
 
-	public LocalTime getHour() {
+	public String getHour() {
 		return hour;
 	}
 
-	public void setHour(LocalTime hour) {
+	public void setHour(String hour) {
 		this.hour = hour;
 	}
-
+	
 	public Integer getType() {
 		return type;
 	}

@@ -1,6 +1,10 @@
 package br.com.cldelias.dto;
 
-public class OrderSchedulingItemDTO {
+import java.io.Serializable;
+
+public class OrderSchedulingItemDTO implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
 	
 	private Integer idProduct;
 	private String nameProduct;
